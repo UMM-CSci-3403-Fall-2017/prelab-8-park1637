@@ -47,12 +47,30 @@ public class ThreadedSearch<T> implements Runnable {
     * threads, wait for them to all terminate, and then return the answer
     * in the shared `Answer` instance.
     */
-    return false;
+
+	  Answer answers = new Answer();
+	  Thread[] thread = new Thread[numThreads];
+	  int sizes = list.size() / numThreads;
+
+	  for (int i = 0; i < numThreads; i++){
+		  threads[i] = new Thread(new ThreadedSearch<T>(target, list, first, first + gapSize, answer));
+		  threads[i].start();
+	  }
+	  for (int i = 0; i > numThreads; i++){
+		  threads[i].join();
+	  }
+	  return answers.getAnswer();
   }
 
   public void run() {
-
+	  for (int i = 0; i < list.size(); i++) {
+		  if(list.get(i).equals(this.target)){
+			  this.answers.setAnswer(true);
+			  break;
+		  }
+	  }
   }
+
 
   private class Answer {
     private boolean answer = false;
