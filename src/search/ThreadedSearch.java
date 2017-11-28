@@ -85,5 +85,6 @@ public class ThreadedSearch<T> implements Runnable {
       answer = newAnswer;
     }
   }
-
 }
+
+//test
